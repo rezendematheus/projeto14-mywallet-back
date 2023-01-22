@@ -17,3 +17,23 @@ export async function signUp(req, res) {
         res.status(500).send(err.message)
     }
 }
+
+export async function signIn(req, res) {
+    const { email, password } = req.body
+
+    try {
+
+        const user = db.collection('user').findOne({ email });
+        if (!user) return res.status(400).send('Usuário ou senha incorretos')
+
+        const passwordIsValid = bcrypt.compareSync(password, user.password)
+        if(!passwordIsValid) return res.status(400).send("Usuário ou senha inválido")
+
+        const token = uuidV4();
+
+        await db.collection('sessions').insertOne({ userId: user._id, token })
+
+    } catch (error) {
+        return res.status(500).send(error.message)
+    }
+}
