@@ -1,4 +1,4 @@
-import { MongoClient, MongoCompatibilityError } from "mongodb";
+import { MongoClient } from "mongodb";
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -12,3 +12,5 @@ try {
 } catch (error) {
     console.log(error.message)
 }
+
+export default db;

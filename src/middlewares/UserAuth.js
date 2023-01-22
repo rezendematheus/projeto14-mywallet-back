@@ -1,6 +1,6 @@
 import db from "../config/database.js";
 
-export function userAuth(req, res, next){
+export async function userAuth(req, res, next){
     
         const { authorization } = req.headers;
         const token = authorization?.replace("Bearer ", "")
@@ -8,7 +8,7 @@ export function userAuth(req, res, next){
         if(!token) return res.status(422).send("Missing token")
         
     try{
-        const session = db.colletion('sessions').findOne({token: token})
+        const session = await db.colletion('sessions').findOne({token: token})
 
         if(!session) res.status(401).send("Invalid token")
 
