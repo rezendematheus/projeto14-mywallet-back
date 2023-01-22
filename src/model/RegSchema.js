@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const registrySchema = Joi.object({
+export const regSchema = Joi.object({
     description: Joi.string()
         .min(3)
         .required(),
