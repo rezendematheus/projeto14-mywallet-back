@@ -1,6 +1,9 @@
 import Joi from "joi";
-
+const schema = Joi;
 export const regSchema = Joi.object({
+    date: Joi
+        .string()
+        .required(),
     description: Joi.string()
         .min(3)
         .required(),

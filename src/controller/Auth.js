@@ -12,8 +12,8 @@ export async function signUp(req, res) {
         const hashPwd = bcrypt.hashSync(password, 10)
 
         await db.collection('users').insertOne({ name, email, password: hashPwd })
-        const users = await db.collection('users').find({}).toArray()
-        res.status(201).send(users)
+
+        res.status(201).send()
 
     } catch (err) {
         res.status(500).send(err.message)
@@ -32,10 +32,10 @@ export async function signIn(req, res) {
         if(!passwordIsValid) return res.status(400).send("Usuário ou senha inválido")
 
         const token = uuidV4();
+        const sessionInfo = {userId: user._id, name: user.name, token}
+        await db.collection('sessions').insertOne(sessionInfo)
 
-        await db.collection('sessions').insertOne({ userId: user._id, token })
-
-        res.send(token)
+        res.send(sessionInfo)
     } catch (error) {
         return res.status(500).send(error.message)
     }
