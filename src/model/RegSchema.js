@@ -7,6 +7,6 @@ export const regSchema = Joi.object({
     value: Joi.number()
         .required(),
     type: Joi.string()
-        .allow("outgoing", "income")
+        .valid("income","outgoing")
         .required()
 })
